@@ -37,4 +37,18 @@ module PocketClient
 		end
 	end
 
+	# Tag Pocket articles with given item IDs
+	def self.tag_articles(access_token, articles)
+		actions = Array.new
+		articles.each do |a|
+			actions.push({"action" => "tags_add", "item_id" => a[1]['item_id'], "tags" => "p2k"})
+		end
+		response = RestClient.post "https://getpocket.com/v3/send", :consumer_key => Settings.POCKET_CONSUMER_KEY, :access_token => access_token, :actions => actions.to_json
+		tagged = JSON.parse(response)['status']
+		if tagged == 1
+			return true
+		else
+			return false
+		end
+	end
 end

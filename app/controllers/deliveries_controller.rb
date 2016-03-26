@@ -52,6 +52,7 @@ class DeliveriesController < ApplicationController
     delivery.option = onetime_params[:option]
     delivery.count = option_map[onetime_params[:option]]
     delivery.archive_delivered = onetime_params[:archive_delivered]
+    delivery.archive_tagged = onetime_params[:archive_tagged]
 
     # Process the delivery right away
     DeliveryProcessor.deliver(delivery)
@@ -75,7 +76,7 @@ class DeliveriesController < ApplicationController
   end
 
   def onetime_params
-    params.require(:delivery).permit(:option, :count_latest, :count_timed, :count_random, :kindle_email, :archive_delivered)    
+    params.require(:delivery).permit(:option, :count_latest, :count_timed, :count_random, :kindle_email, :archive_delivered)
   end
 
 end
