@@ -5,6 +5,9 @@ require 'open_uri_redirections'
 require 'kindlerb'
 require 'nokogiri'
 
+require 'slideshare'
+require 'speakerdeck'
+
 module CreateBook
 
 	# Create book files necessary for kindlerb
@@ -63,7 +66,15 @@ module CreateBook
 		articles.each do |article|
 			# Parse each article and then write them to an HTML file
 			File.open(articles_home.to_s+"/"+i.to_s+".html", "w") do |f|
-				article_html = self.parse_pocket article[1]['resolved_url']
+				url = article[1]['resolved_url']
+				p url
+				if url =~ /slideshare\.net/
+					article_html = SlideShare.generate_image_html(url)
+				elsif url =~ /speakerdeck\.com/
+					article_html = SpeakerDeck.generate_image_html(url)
+				else
+					article_html = self.parse_pocket url
+				end
 				article_html = self.find_and_download_images(article_html, images_home)
 				f.write("<html>" +
 					"<head>" +
@@ -110,7 +121,7 @@ module CreateBook
 				}}
 		rescue => e
 			Rails.logger.debug "Both APIs failed on URL: " + url + "\n"
-			return "This article could not be fetched or is otherwise invalid.\n" + 
+			return "This article could not be fetched or is otherwise invalid.\n" +
 				"This is most likely an issue with fetching the article from the source server.\n" +
 				"URL: " + url + "\n" +
 				"Parsing was first tried via Diffbot API. Error message:\n" + error + "\n" +
@@ -153,7 +164,7 @@ module CreateBook
 		  		# Download image
 		  		image_url = save_to.join(image_name).to_s
 		  		image_from_src = open(src, :allow_redirections => :safe).read
-		  		open(image_url, 'wb') do |file|	  			
+		  		open(image_url, 'wb') do |file|
 	  				file << image_from_src
 		  		end
 
