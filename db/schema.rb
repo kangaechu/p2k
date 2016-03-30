@@ -11,33 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141226224502) do
+ActiveRecord::Schema.define(version: 20160326071334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "adminpack"
 
   create_table "deliveries", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "kindle_email",      limit: 255
-    t.integer  "frequency",                     default: 0
-    t.integer  "day",                           default: 7
+    t.string   "kindle_email"
+    t.integer  "frequency",         default: 0
+    t.integer  "day",               default: 7
     t.integer  "hour"
-    t.string   "time_zone",         limit: 255
-    t.integer  "option",                        default: 0
+    t.string   "time_zone"
+    t.integer  "option",            default: 0
     t.integer  "count"
-    t.boolean  "archive_delivered",             default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean  "archive_delivered", default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "archive_tagged",    default: false
   end
 
   add_index "deliveries", ["user_id"], name: "index_deliveries_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "username",     limit: 255
-    t.string   "access_token", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "username"
+    t.string   "access_token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
+
+  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
 end
