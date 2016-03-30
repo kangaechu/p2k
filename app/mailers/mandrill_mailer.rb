@@ -34,12 +34,12 @@ class MandrillMailer
 	  		else
 	  			# Send using SMTP
 	  			Rails.logger.debug "Mandrill returned status != sent, switching to SMTP!\n"
-	  			PocketMailer.delivery_email(delivery, attachment)
+	  			PocketMailer.delivery_email(delivery, attachment).deliver
 	  		end
 	  	# Rescue from Mandrill errors, and use SMTP if it happens
 		rescue Mandrill::Error => e
 	    	Rails.logger.debug "A mandrill error occurred: #{e.class} - #{e.message}, switching to SMTP"
-	    	PocketMailer.delivery_email(delivery, attachment)
+	    	PocketMailer.delivery_email(delivery, attachment).deliver
 		end
 	end
 
