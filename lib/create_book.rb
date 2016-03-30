@@ -12,7 +12,7 @@ module CreateBook
 
 	# Create book files necessary for kindlerb
 	def self.create_files(articles, username)
-	  	current_time = Time.now.strftime("%d%m%Y%H%M")
+	  	current_time = Time.now.strftime("%Y%m%d%H%M")
 	  	name = current_time + "_" + username
 
 	  	# Create folder for the book
@@ -26,7 +26,7 @@ module CreateBook
 	  	'author: p2k.co' + "\n" +
 	  	'publisher: p2k.co' + "\n" +
 	  	'subject: Pocket Articles' + "\n" +
-	  	'date: "' + Time.now.strftime("%d-%m-%Y") +'"' + "\n" +
+	  	'date: "' + Time.now.strftime("%Y-%m-%d") +'"' + "\n" +
 	  	'masthead: ' + image.to_s + "\n" +
 	  	'cover: ' + image.to_s + "\n" +
 	  	'mobi_outfile: p2k.mobi'
