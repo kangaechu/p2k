@@ -49,3 +49,6 @@ gem 'mandrill-api'
 gem 'thin', group: :development
 
 gem 'coveralls', require: false
+
+gem 'execjs'
+gem 'therubyracer'
