@@ -10,6 +10,7 @@ default: &default
   username: <%= Settings.DATABASE_USERNAME %>
   password: <%= Settings.DATABASE_PASSWORD %>
   host: <%= Settings.DATABASE_HOST %>
+  port: <%= ENV.fetch('DATABASE_PORT') { 5432 } %>
   pool: 5
   timeout: 5000
 
